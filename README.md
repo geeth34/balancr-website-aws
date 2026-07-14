@@ -151,6 +151,7 @@ Lambda returns 200 → browser shows "Message sent successfully"
 ## Key Technical Decisions
 
 **Why S3 + CloudFront over AWS Amplify?**
+
 Amplify abstracts the underlying services — you get a working deployment but lose visibility into what's actually happening. 
 By configuring S3, CloudFront, and ACM manually, each component is fully understood and independently configurable. This approach also provides finer control over cache behaviors, security headers, and CDN settings that Amplify doesn't expose directly.
 
