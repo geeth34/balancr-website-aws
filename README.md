@@ -62,16 +62,16 @@ Serves the Balancr banking website globally with HTTPS on a custom domain.
 ### Screenshots
 
 **S3 Bucket with Files**
-![S3 Bucket](screenshots/S3 bucket.png)
+![S3 Bucket](screenshots/S3_bucket.png)
 
 **CloudFront Distribution**
-![CloudFront](screenshots/cloudfront_distribution.png)
+![CloudFront](screenshots/CloudFront_distribution.png)
 
 **ACM Certificate — Issued**
-![ACM Certificate](screenshots/acm_certificate.png)
+![ACM Certificate](screenshots/ACM_certificate.png)
 
 **Live Site with HTTPS**
-![Live Site](screenshots/live_site.png)
+![Live Site](screenshots/live_website.png)
 
 **Connection Secure**
 ![HTTPS Secure](screenshots/https_secure.png)
