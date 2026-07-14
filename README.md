@@ -74,7 +74,7 @@ Serves the Balancr banking website globally with HTTPS on a custom domain.
 ![Live Site](screenshots/live_website.png)
 
 **Connection Secure**
-![HTTPS Secure](screenshots/https_secure.png)
+![HTTPS Secure](screenshots/HTTPS_secure.png)
 
 ---
 
