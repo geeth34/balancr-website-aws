@@ -156,9 +156,11 @@ Amplify abstracts the underlying services — you get a working deployment but l
 By configuring S3, CloudFront, and ACM manually, each component is fully understood and independently configurable. This approach also provides finer control over cache behaviors, security headers, and CDN settings that Amplify doesn't expose directly.
 
 **Why serverless for the contact form?**
+
 A contact form receives occasional submissions — not continuous traffic. Running a traditional server 24/7 to handle infrequent requests is wasteful. Lambda runs only when triggered, costs nothing when idle, and scales automatically to handle any volume of submissions.
 
 **Why IAM least-privilege for Lambda?**
+
 The Lambda function only needs to send emails — nothing else. Attaching only `AmazonSESFullAccess` means even if the function were compromised, an attacker could only send emails via SES — they couldn't access S3, EC2, RDS, or any other service.
 
 ---
