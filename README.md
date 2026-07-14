@@ -78,7 +78,7 @@ Serves the Balancr banking website globally with HTTPS on a custom domain.
 
 ---
 
-## Project 2 — Serverless Contact Form (Lambda + API Gateway + SES)
+## Serverless Contact Form (Lambda + API Gateway + SES)
 
 ### What It Does
 Processes contact form submissions and delivers email notifications — entirely serverless, scales automatically, zero server management.
