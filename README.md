@@ -134,6 +134,9 @@ Lambda returns 200 → browser shows "Message sent successfully"
 **API Gateway Routes**
 ![API Gateway Routes](screenshots/API_Gateway_routes.png)
 
+**API Gateway Routes**
+![API Gateway Routes](screenshots/API_Gateway_integrations.png)
+
 **SES Verified Identity**
 ![SES](screenshots/SES_verified.png)
 
