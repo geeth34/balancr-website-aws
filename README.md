@@ -36,7 +36,7 @@ Balancr is a cloud-native static banking website deployed entirely on AWS manage
 
 ---
 
-## Project 1 — Static Website Hosting on S3 + CloudFront
+## Static Website Hosting on S3 + CloudFront
 
 ### What It Does
 Serves the Balancr banking website globally with HTTPS on a custom domain.
@@ -62,7 +62,7 @@ Serves the Balancr banking website globally with HTTPS on a custom domain.
 ### Screenshots
 
 **S3 Bucket with Files**
-![S3 Bucket](screenshots/s3_bucket.png)
+![S3 Bucket](screenshots/S3_bucket.png)
 
 **CloudFront Distribution**
 ![CloudFront](screenshots/cloudfront_distribution.png)
