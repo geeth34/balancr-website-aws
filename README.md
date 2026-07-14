@@ -19,6 +19,24 @@ Balancr is a cloud-native static banking website deployed entirely on AWS manage
 
 ![Architecture Diagram](screenshots/architecture-diagram.png)
 
+```
+User Browser
+     ↓ HTTPS (codeandcloud.site)
+Hostinger DNS → CNAME → CloudFront Distribution
+     ↓
+CloudFront (400+ edge locations, SSL termination)
+     ↓
+S3 Bucket (static files)
+
+Contact Form Submission
+     ↓ POST /contact
+API Gateway (HTTP API)
+     ↓ trigger
+Lambda Function (Python/boto3)
+     ↓
+SES → Email Delivery
+```
+
 ---
 
 ## AWS Services Used
@@ -125,19 +143,23 @@ Lambda returns 200 → browser shows "Message sent successfully"
 ### Screenshots
 
 **Lambda Function Code**
-![Lambda Code](screenshots/lambda_code.png)
+![Lambda Code](screenshots/Lambda_code_1.png)
+![Lambda Code](screenshots/Lambda_code_2.png)
 
 **Lambda Trigger — API Gateway**
-![Lambda Trigger](screenshots/lambda_trigger.png)
+![Lambda Trigger](screenshots/Lambda_trigger.png)
 
 **API Gateway Routes**
-![API Gateway Routes](screenshots/api_gateway_routes.png)
+![API Gateway Routes](screenshots/API_Gateway_routes.png)
 
 **SES Verified Identity**
-![SES](screenshots/ses_verified.png)
+![SES](screenshots/SES_verified.png)
 
 **Contact Form on Live Site**
 ![Contact Form](screenshots/contact_form.png)
+
+**Message sent successfully**
+![Contact Form](screenshots/message_sent_successfully.png)
 
 **Email Received**
 ![Email](screenshots/email_received.png)
@@ -147,7 +169,8 @@ Lambda returns 200 → browser shows "Message sent successfully"
 ## Key Technical Decisions
 
 **Why S3 + CloudFront over AWS Amplify?**
-Amplify abstracts the underlying services — you get a working deployment but lose visibility into what's actually happening. By configuring S3, CloudFront, and ACM manually, each component is fully understood and independently configurable. This approach also provides finer control over cache behaviors, security headers, and CDN settings that Amplify doesn't expose directly.
+Amplify abstracts the underlying services — you get a working deployment but lose visibility into what's actually happening. 
+By configuring S3, CloudFront, and ACM manually, each component is fully understood and independently configurable. This approach also provides finer control over cache behaviors, security headers, and CDN settings that Amplify doesn't expose directly.
 
 **Why serverless for the contact form?**
 A contact form receives occasional submissions — not continuous traffic. Running a traditional server 24/7 to handle infrequent requests is wasteful. Lambda runs only when triggered, costs nothing when idle, and scales automatically to handle any volume of submissions.
@@ -161,7 +184,7 @@ The Lambda function only needs to send emails — nothing else. Attaching only `
 
 - **Frontend:** HTML5, CSS3, JavaScript (ES6+)
 - **Cloud:** AWS S3, CloudFront, ACM, API Gateway, Lambda, SES, IAM
-- **Backend (Serverless):** Python 3, boto3, pymysql
+- **Backend (Serverless):** Python 3, boto3
 - **DNS:** Hostinger
 - **Version Control:** Git, GitHub
 
