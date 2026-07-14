@@ -14,3 +14,27 @@ Balancr is a cloud-native static banking website deployed entirely on AWS manage
 2. **Serverless event-driven contact pipeline** — a contact form that triggers a Lambda function on every submission, delivering email notifications via SES with zero server management
 
 ---
+
+## Architecture
+
+![Architecture Diagram](screenshots/architecture.png)
+
+```
+User Browser
+     ↓ HTTPS (codeandcloud.site)
+Hostinger DNS → CNAME → CloudFront Distribution
+     ↓
+CloudFront (400+ edge locations, SSL termination)
+     ↓
+S3 Bucket (static files)
+
+Contact Form Submission
+     ↓ POST /contact
+API Gateway (HTTP API)
+     ↓ trigger
+Lambda Function (Python/boto3)
+     ↓
+SES → Email Delivery
+```
+
+---
