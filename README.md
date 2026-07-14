@@ -17,24 +17,6 @@ Balancr is a cloud-native static banking website deployed entirely on AWS manage
 
 ## Architecture
 
-[Architecture Diagram](screenshots/architecture.png)
+[Architecture Diagram](screenshots/static-web-hosting.png)
 
 ```
-User Browser
-     ↓ HTTPS (codeandcloud.site)
-Hostinger DNS → CNAME → CloudFront Distribution
-     ↓
-CloudFront (400+ edge locations, SSL termination)
-     ↓
-S3 Bucket (static files)
-
-Contact Form Submission
-     ↓ POST /contact
-API Gateway (HTTP API)
-     ↓ trigger
-Lambda Function (Python/boto3)
-     ↓
-SES → Email Delivery
-```
-
----
