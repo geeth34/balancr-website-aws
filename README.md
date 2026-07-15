@@ -65,16 +65,16 @@ Serves the Balancr banking website globally with HTTPS on a custom domain.
 ![S3 Bucket](screenshots/S3_bucket.png)
 
 **CloudFront Distribution**
-![CloudFront](screenshots/CloudFront_distribution.png)
+![CloudFront](screenshots/cloudfront_distribution.png)
 
 **ACM Certificate — Issued**
-![ACM Certificate](screenshots/ACM_certificate.png)
+![ACM Certificate](screenshots/acm_certificate.png)
 
 **Live Site with HTTPS**
 ![Live Site](screenshots/live_website.png)
 
 **Connection Secure**
-![HTTPS Secure](screenshots/HTTPS_secure.png)
+![HTTPS Secure](screenshots/https_secure.png)
 
 ---
 
@@ -125,20 +125,20 @@ Lambda returns 200 → browser shows "Message sent successfully"
 ### Screenshots
 
 **Lambda Function Code**
-![Lambda Code](screenshots/Lambda_code_1.png)
-![Lambda Code](screenshots/Lambda_code_2.png)
+![Lambda Code](screenshots/lambda_code_1.png)
+![Lambda Code](screenshots/lambda_code_2.png)
 
 **Lambda Trigger — API Gateway**
-![Lambda Trigger](screenshots/Lambda_trigger.png)
+![Lambda Trigger](screenshots/lambda_trigger.png)
 
 **API Gateway Routes**
-![API Gateway Routes](screenshots/API_Gateway_routes.png)
+![API Gateway Routes](screenshots/api_gateway_routes.png)
 
 **API Gateway Routes**
-![API Gateway Routes](screenshots/API_Gateway_integrations.png)
+![API Gateway Routes](screenshots/api_gateway_integrations.png)
 
 **SES Verified Identity**
-![SES](screenshots/SES_verified.png)
+![SES](screenshots/ses_verified.png)
 
 **Contact Form on Live Site**
 ![Contact Form](screenshots/contact_form.png)
