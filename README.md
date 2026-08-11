@@ -1,6 +1,6 @@
 # Balancr — Cloud-Native Web Application with Serverless Event-Driven Architecture
 
-> A minimalist banking website deployed on AWS using S3, CloudFront, Lambda, API Gateway, and SES — combining static hosting with a serverless contact pipeline.
+> A minimalist banking website deployed on AWS using S3, CloudFront, Lambda, API Gateway, SES and CloudWatch — combining static hosting with a serverless contact pipeline and real-time monitoring.
 
 **Live Site:** [codeandcloud.site](https://codeandcloud.site)
 
@@ -12,6 +12,8 @@ Balancr is a cloud-native static banking website deployed entirely on AWS manage
 
 1. **Static hosting with global CDN delivery** — HTML, CSS, and JavaScript files served from S3 via CloudFront across 400+ edge locations worldwide
 2. **Serverless event-driven contact pipeline** — a contact form that triggers a Lambda function on every submission, delivering email notifications via SES with zero server management
+3. Automated CI/CD deployment — GitHub Actions pipeline that automatically syncs files to S3 and invalidates CloudFront cache on every push to main
+4. Real-time observability — CloudWatch monitoring with metric alarms and SNS notifications for proactive error detection.
 
 ---
 
@@ -32,6 +34,9 @@ Balancr is a cloud-native static banking website deployed entirely on AWS manage
 | **Lambda** | Serverless function that processes form submissions and triggers email |
 | **SES** | Sends email notification on every contact form submission |
 | **IAM** | Execution role granting Lambda least-privilege permission to invoke SES |
+| **CloudWatch** | Monitors Lambda metrics, stores logs, triggers alarms on errors |
+| **SNS** | Delivers CloudWatch alarm notifications via email |
+| **GitHub Actions** | CI/CD pipeline — auto-deploys to S3 and invalidates CloudFront on push |
 | **Hostinger DNS** | CNAME record pointing custom domain to CloudFront distribution |
 
 ---
@@ -149,6 +154,95 @@ Lambda returns 200 → browser shows "Message sent successfully"
 **Email Received**
 ![Email](screenshots/email_received.png)
 
+## CI/CD Pipeline (GitHub Actions)
+
+### What It Does
+Automates deployment — every push to the main branch automatically syncs files to S3 and invalidates CloudFront cache, eliminating manual upload steps.
+
+### How It Works
+
+- GitHub Actions workflow triggers on every push to `main` branch
+- AWS credentials stored as GitHub Secrets — never exposed in code
+- `aws s3 sync` uploads changed files to S3 bucket automatically
+- `aws cloudfront create-invalidation` clears cached content at all 400+ edge locations
+- Live site updated within minutes of every code push — zero manual steps
+
+### Workflow
+
+```
+git push → main branch
+        ↓
+GitHub Actions triggered
+        ↓
+Configure AWS credentials (from GitHub Secrets)
+        ↓
+Sync files to S3
+        ↓
+Invalidate CloudFront cache
+        ↓
+Live site updated automatically
+```
+
+### Screenshots
+
+**GitHub Actions Workflow — Success**
+![CI/CD](screenshots/github_actions.png)
+
+## CloudWatch Monitoring
+
+### What It Does
+Monitors the serverless contact pipeline in real time — detecting Lambda errors, tracking invocations and performance, and sending email alerts when issues occur.
+
+### How It Works
+
+**CloudWatch Logs**
+- Lambda automatically streams execution logs to CloudWatch Log Group `/aws/lambda/contactFormHandler`
+- Every invocation, error, and duration is recorded
+- Logs are searchable and filterable for debugging
+
+**CloudWatch Alarm**
+- Metric alarm configured on Lambda `Errors` metric
+- Triggers when errors ≥ 1 within a 5-minute period
+- Alarm state change triggers SNS notification
+
+**SNS Notification**
+- SNS topic `balancr-lambda-alerts` created
+- Email subscription confirmed
+- Delivers instant email alert when Lambda errors occur
+
+**CloudWatch Dashboard**
+- Custom dashboard `balancr-monitoring` created
+- Tracks 4 key Lambda metrics in real time:
+  - **Invocations** — how many times the function was called
+  - **Errors** — failed executions
+  - **Duration** — how long each execution took
+  - **Throttles** — times Lambda hit concurrency limits
+
+### Monitoring Flow
+
+```
+Lambda executes
+        ↓
+CloudWatch collects metrics + logs
+        ↓
+Error detected → Alarm state changes to "In Alarm"
+        ↓
+SNS topic triggered
+        ↓
+Email alert delivered
+```
+
+### Screenshots
+
+**CloudWatch Dashboard**
+![CloudWatch Dashboard](screenshots/cloudwatch_dashboard.png)
+
+**Lambda Error Alarm**
+![CloudWatch Alarm](screenshots/cloudwatch_alarm.png)
+
+**CloudWatch Log Group**
+![CloudWatch Logs](screenshots/cloudwatch_logs.png)
+
 ---
 
 ## Key Technical Decisions
@@ -166,13 +260,20 @@ A contact form receives occasional submissions — not continuous traffic. Runni
 
 The Lambda function only needs to send emails — nothing else. Attaching only `AmazonSESFullAccess` means even if the function were compromised, an attacker could only send emails via SES — they couldn't access S3, EC2, RDS, or any other service.
 
+**Why GitHub Actions for CI/CD?**
+Manual S3 uploads are error-prone and time-consuming. GitHub Actions automates the entire deployment process — any code change pushed to main is live within minutes with zero manual steps. AWS credentials are stored as encrypted GitHub Secrets, never in code.
+
+**Why CloudWatch monitoring?**
+Production applications need observability. Without monitoring, Lambda errors could go undetected — users would silently fail to send messages with no alert to the developer. CloudWatch alarms with SNS notifications ensure any error is immediately visible, enabling rapid incident response.
+
 ---
 
 ## Tech Stack
 
 - **Frontend:** HTML5, CSS3, JavaScript (ES6+)
-- **Cloud:** AWS S3, CloudFront, ACM, API Gateway, Lambda, SES, IAM
+- **Cloud:** AWS S3, CloudFront, ACM, API Gateway, Lambda, SES, IAM, CloudWatch, SNS
 - **Backend (Serverless):** Python 3, boto3
+- **CI/CD:** GitHub Actions
 - **DNS:** Hostinger
 - **Version Control:** Git, GitHub
 
